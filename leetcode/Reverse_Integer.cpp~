@@ -1,0 +1,30 @@
+#include<iostream>
+
+using namespace std;
+class Solution {
+public:
+    int reverse(int x) {
+        if(x==-2147483648) return 0;
+        int ret=0;
+        bool isNeg=false;
+        if(x<=0) {isNeg=true;x=-x;}
+        while(x>=10){
+            int tmp=x%10;
+            x/=10;    
+            ret=ret*10+tmp;
+        }
+        
+        int tmp=x%10;
+        x/=10;   
+        ret=ret*10+tmp;
+        if(ret%10!=tmp)
+                return 0;
+        
+        if(isNeg) ret=-ret;
+        
+        return ret;
+        
+        
+    }
+};
+
