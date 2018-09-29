@@ -39,7 +39,7 @@ protected:
 	}
 	inline T deleteAfter(dtsListNode<T>* first){
 		T ret;
-		if(!first->next || !first->next->next)
+		if(!first || !first->next || !first->next->next)
 			return ret;
 		dtsListNode<T>* second=first->next;
 		dtsListNode<T>* third=second->next;
@@ -47,7 +47,7 @@ protected:
 
 		if(first==pHead)
 			pBegin=third;
-		if(first==pTail->pre)
+		if(second==pTail)
 			pTail=first;
 
 		delete second;
@@ -110,7 +110,11 @@ public:
 		return *this;
 	}
 	T deleteFromEnd(){
-		return deleteAfter(pTail->pre);
+		if(pTail){
+			return deleteAfter(pTail->pre);
+		}
+		T ret;
+		return ret;
 	}
 	T deleteFromHead(){
 		return deleteAfter(pHead);
