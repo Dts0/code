@@ -17,7 +17,12 @@ public:
 	T top(){
 		return dtsList<T>::pTail->value;
 	}
-
+	T bottom(){
+		return dtsList<T>::pBegin->value;
+	}
+	~dtsStack(){
+		dtsList<T>::~dtsList();
+	}
 };
 
 #endif
