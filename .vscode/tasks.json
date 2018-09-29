@@ -6,7 +6,7 @@
 		{
 			"label": "build",
 			"type": "shell",
-			"command": "g++ ${file} -L$CAT_HOME/lib -I$CAT_HOME/include -o bin/${fileBasenameNoExtension}.debug.out -g"
+			"command": "g++ ${file} -std=c++11 -o bin/${fileBasenameNoExtension}.debug.out -g"
 		}
 	]
 }
