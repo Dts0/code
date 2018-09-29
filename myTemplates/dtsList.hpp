@@ -16,6 +16,7 @@ public:
 
 template<typename T>
 class dtsList{
+protected:
 	dtsListNode<T>* pHead;//空的头结点
 	dtsListNode<T>* pBegin;//链表第一个数据结点
 	dtsListNode<T>* pTail;//链表最后一个数据结点
@@ -84,7 +85,7 @@ public:
 	dtsListNode<T>* end(){
 		return pEnd();
 	}
-	bool add2End(T val){
+	dtsList<T>& add2End(T val){
 		if(!pTail || !pBegin){//当前无数据时
 			pBegin=insertAfter(pHead,val);
 			pTail=pBegin;
@@ -94,9 +95,9 @@ public:
 			//print();
 		}
 		//cout<<"node "<<val<<" added"<<endl;
-		return true;
+		return *this;
 	}
-	bool add2Head(T val){
+	dtsList<T>& add2Head(T val){
 		if(!pBegin || !pTail){//当前无数据时
 			pBegin=insertAfter(pHead,val);
 			pTail=pBegin;
@@ -106,6 +107,7 @@ public:
 			//print();
 		}
 		//cout<<"node "<<val<<" added"<<endl;
+		return *this;
 	}
 	T deleteFromEnd(){
 		return deleteAfter(pTail->pre);
@@ -113,9 +115,9 @@ public:
 	T deleteFromHead(){
 		return deleteAfter(pHead);
 	}
-	void print(const char* separator="->"){
+	void print(const char* separator="->",const char* null_str="空链表"){
 		if(pHead->next==pEnd){
-			cout<<"空链表"<<endl;
+			cout<<null_str<<endl;
 			return;
 		}
 		for( dtsListNode<T>* it=pBegin;it!=pEnd;it=it->next ){
@@ -126,9 +128,9 @@ public:
 		}
 		cout<<endl;
 	}
-	void print_rev(const char* separator="<-"){
+	void print_rev(const char* separator="<-",const char* null_str="空链表"){
 		if(pHead->next==pEnd){
-			cout<<"空链表"<<endl;
+			cout<<null_str<<endl;
 			return;
 		}
 		for( dtsListNode<T>* it=pTail;it!=pHead;it=it->pre ){
@@ -138,7 +140,7 @@ public:
 		}
 		cout<<endl;
 	}
-	~dtsList(){
+	virtual ~dtsList(){
 		dtsListNode<T>* node2Delete=pHead;
 		dtsListNode<T>* nextNode2Delete;
 		while(node2Delete){
