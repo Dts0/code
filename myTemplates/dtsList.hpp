@@ -45,19 +45,20 @@ protected:
 		dtsListNode<T>* third=second->next;
 		ret=second->value;
 
-		if(first==pHead)
+		if(first==pHead)//删除结点为pBegin时
 			pBegin=third;
-		if(second==pTail)
+		if(first!=pHead && second==pTail){//删除结点为pTail时
 			pTail=first;
+		} else{//删除最后一个结点时
+			pBegin=NULL;
+			pTail=NULL;
+		}
+
 
 		delete second;
 		first->next=third;
 		third->pre=first;
 
-		if(first==pHead || third==pEnd){
-			pBegin=NULL;
-			pTail=NULL;
-		}
 		return ret;
 	}
 

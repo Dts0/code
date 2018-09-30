@@ -15,10 +15,14 @@ public:
 		return dtsList<T>::deleteFromHead();
 	}
 	T head(){
-		return dtsList<T>::pBegin->value;
+		if(dtsList<T>::pBegin)
+			return dtsList<T>::pBegin->value;
+		else return T();
 	}
 	T tail(){
-		return dtsList<T>::pTail->value;
+		if(dtsList<T>::pTail)
+			return dtsList<T>::pTail->value;
+		else return T();
 	}
 	~dtsQueue(){
 		dtsList<T>::~dtsList();
