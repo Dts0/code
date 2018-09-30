@@ -1,9 +1,9 @@
 #include"dtsBinaryTree.hpp"
 #include"dtsStack.hpp"
 #include"dtsQueue.hpp"
+using namespace std;
 
 void traverse_pre(dtsBinaryTreeNode<int>* root){
-	//dtsBinaryTreeNode<int>* pRoot=root;
 	dtsStack<dtsBinaryTreeNode<int>*> stack;
 	while(root || stack.top()){//必须栈空而且root也为空才结束
 		while(root){
@@ -15,36 +15,26 @@ void traverse_pre(dtsBinaryTreeNode<int>* root){
 		root=root->rightChild;
 	}
 
-//	cout<<stack.pop()->value<<endl;
-//	cout<<stack.empty()<<endl;
-	//root=pRoot;
 }
 
-void traverse_BFT(dtsBinaryTreeNode<int>* root){
-	dtsQueue<dtsBinaryTreeNode<int>*> queue;
-	while(root || queue.tail()){
-		while(root){
-			cout<<root->value<<" ";
-			queue.push(root);
-			root=root->leftChild;
+void traverse_BFS(dtsBinaryTreeNode<int>* root){
+	dtsQueue<dtsBinaryTreeNode<int>*> queue0;
+	if(root)
+		queue0.push(root);
+	while(!queue0.empty()){
+		queue0.print();
+		dtsBinaryTreeNode<int>* tmp=queue0.pop();
+		cout<<tmp->value<<" ";
+		cout<<tmp->leftChild<<","<<tmp->rightChild<<endl<<endl;
+		if(tmp->leftChild){
+			queue0.push(tmp->leftChild);
 		}
-		root=queue.pop();
-		root=root->rightChild;
+		if(tmp->rightChild){
+			queue0.push(tmp->rightChild);
+		}
 	}
 }
 
-void test(int in){
-	if(in){
-	//	dtsQueue<int> q2;
-		dtsStack<int> s2;
-	}
-	if(in) {
-	//	dtsQueue<int> q;
-	//	dtsStack<int> s;
-
-	}
-
-}
 
 int main(){
 	/*       0
@@ -60,11 +50,8 @@ int main(){
 	cout<<list.deleteFromHead()<<endl;
 	cout<<list.deleteFromHead()<<endl;
 */
-	test(1);
-	//test(0);
 
 
-/*
 	dtsBinaryTreeNode<int>* root=new dtsBinaryTreeNode<int>(0);
 	dtsBinaryTree<int> tree(root);
 	tree.add2Left_val(1,0).add2Right_val(2,0).add2Left_val(3,1)
@@ -73,9 +60,7 @@ int main(){
 	tree.print_pre();
 	traverse_pre(root);
 	cout<<endl;
-	traverse_pre(root);
-	//traverse_BFT(root);
-*/
+	traverse_BFS(root);
 
 	return 0;
 }
