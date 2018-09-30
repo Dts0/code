@@ -54,6 +54,10 @@ protected:
 		first->next=third;
 		third->pre=first;
 
+		if(first==pHead || third==pEnd){
+			pBegin=NULL;
+			pTail=NULL;
+		}
 		return ret;
 	}
 
