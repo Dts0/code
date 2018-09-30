@@ -14,7 +14,7 @@ public:
 	T pop(){
 		return dtsList<T>::deleteFromHead();
 	}
-	T head(){
+	T front(){
 		if(dtsList<T>::pBegin)
 			return dtsList<T>::pBegin->value;
 		else return T();

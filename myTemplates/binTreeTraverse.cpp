@@ -22,10 +22,10 @@ void traverse_BFS(dtsBinaryTreeNode<int>* root){
 	if(root)
 		queue0.push(root);
 	while(!queue0.empty()){
-		queue0.print();
+		//queue0.print();
 		dtsBinaryTreeNode<int>* tmp=queue0.pop();
 		cout<<tmp->value<<" ";
-		cout<<tmp->leftChild<<","<<tmp->rightChild<<endl<<endl;
+		//cout<<tmp->leftChild<<","<<tmp->rightChild<<endl<<endl;
 		if(tmp->leftChild){
 			queue0.push(tmp->leftChild);
 		}
