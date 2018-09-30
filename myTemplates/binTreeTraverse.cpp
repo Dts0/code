@@ -3,13 +3,12 @@
 
 void traverse_pre(dtsBinaryTreeNode<int>* root){
 	dtsStack<dtsBinaryTreeNode<int>*> stack;
-	while(root){
+	while(root || stack.top()){//必须栈空而且root也为空才结束
 		while(root){
-			cout<<root->value<<",";
+			cout<<root->value<<" ";
 			stack.push(root);
 			root=root->leftChild;
 		}
-
 		root=stack.pop();
 		root=root->rightChild;
 	}
