@@ -25,7 +25,9 @@ public:
 		else return T();
 	}
 	~dtsStack(){
-		dtsList<T>::~dtsList();
+		//不需要再手动调用析构函数
+		//dtsList<T>::~dtsList();
+		//cout<<"stack freed"<<endl;
 	}
 };
 

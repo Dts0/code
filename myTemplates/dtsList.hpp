@@ -159,6 +159,7 @@ public:
 
 			node2Delete=nextNode2Delete;
 		}
+		//cout<<"list freed"<<endl;
 	}
 };
 

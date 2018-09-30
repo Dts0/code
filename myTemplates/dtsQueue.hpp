@@ -25,7 +25,7 @@ public:
 		else return T();
 	}
 	~dtsQueue(){
-		dtsList<T>::~dtsList();
+		//dtsList<T>::~dtsList();
 	}
 };
 
