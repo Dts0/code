@@ -22,7 +22,7 @@ int main(){
 	//队列
 	dtsQueue<int> queue;
 	queue.push(0).push(1).push(2).push(3);
-	cout<<"head:"<<queue.head()<<endl
+	cout<<"front:"<<queue.front()<<endl
 		<<"tail:"<<queue.tail()<<endl
 		<<"content:";
 	queue.print(" ","空队列");

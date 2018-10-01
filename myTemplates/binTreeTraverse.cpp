@@ -14,7 +14,39 @@ void traverse_pre(dtsBinaryTreeNode<int>* root){
 		root=stack.pop();
 		root=root->rightChild;
 	}
+}
+void traverse_in(dtsBinaryTreeNode<int>* root){
+	dtsStack<dtsBinaryTreeNode<int>*> stack;
+	while(root || stack.top()){//必须栈空而且root也为空才结束
+		while(root){
+			stack.push(root);
+			root=root->leftChild;
+		}
+		root=stack.pop();
+		cout<<root->value<<" ";
+		root=root->rightChild;
+	}
+}
 
+void traverse_post(dtsBinaryTreeNode<int>* root){
+	dtsStack<pair<dtsBinaryTreeNode<int>*,bool>> stack;
+	stack.push(make_pair(root,false));
+	bool visited;
+	while(!stack.empty()){
+		root=stack.top().first;
+		visited=stack.top().second;
+		stack.pop();
+		if(root==NULL)
+			continue;
+		if(visited){
+			cout<<root->value<<" ";
+		}
+		else {
+			stack.push(make_pair(root,true));
+			stack.push(make_pair(root->rightChild,false));
+			stack.push(make_pair(root->leftChild,false));
+		}
+	}
 }
 
 void traverse_BFS(dtsBinaryTreeNode<int>* root){
@@ -59,6 +91,12 @@ int main(){
 
 	tree.print_pre();
 	traverse_pre(root);
+	cout<<endl;
+	tree.print_in();
+	traverse_in(root);
+	cout<<endl;
+	tree.print_post();
+	traverse_post(root);
 	cout<<endl;
 	traverse_BFS(root);
 
