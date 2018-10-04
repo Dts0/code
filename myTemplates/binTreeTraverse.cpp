@@ -1,6 +1,7 @@
 #include"dtsBinaryTree.hpp"
 #include"dtsStack.hpp"
 #include"dtsQueue.hpp"
+#include<vector>
 using namespace std;
 
 void traverse_pre(dtsBinaryTreeNode<int>* root){
@@ -67,6 +68,51 @@ void traverse_BFS(dtsBinaryTreeNode<int>* root){
 	}
 }
 
+dtsBinaryTreeNode<int>* formCore(vector<int>::iterator startPre,vector<int>::iterator endPre,
+								 vector<int>::iterator startIn,vector<int>::iterator endIn){
+	int rootVal=startPre[0];//根结点为前序遍历第一个
+	dtsBinaryTreeNode<int>* root=new dtsBinaryTreeNode<int>(rootVal);
+
+	if(startPre==endPre){
+		return root;
+		//if(startPre==endPre && *startPre==*endPre){
+		//	return root;
+		//}
+		// else {
+		//	throw exception("invalid input during preorder traverse");
+		//}
+	}
+	vector<int>::iterator rootIn=startIn;
+	while(rootIn!=endIn && *rootIn!=rootVal){//在中序遍历中找到根结点
+		++rootIn;
+	}
+	//if(startIn==endIn && *startIn!=*endIn){
+	//	throw exception("invalid input during inorder traverse");
+	//}
+	int leftLength=rootIn-startIn;
+	int rightLength=endIn-rootIn;
+	vector<int>::iterator leftPreEnd=startPre+leftLength;
+	if(leftLength>0){//构建左子树
+		root->leftChild=formCore(startPre+1,leftPreEnd,startIn,rootIn-1);
+	} else {
+		root->leftChild=NULL;
+	}
+	if(rightLength>0){
+		root->rightChild=formCore(leftPreEnd+1,endPre,rootIn+1,endIn);
+	} else {
+		root->rightChild=NULL;
+	}
+
+
+}
+
+dtsBinaryTreeNode<int>* formTreeWithTravRst(vector<int> preTraverse,vector<int> inTraverse){
+	if(preTraverse.empty() || inTraverse.empty())
+		return NULL;
+	return formCore(preTraverse.begin(),preTraverse.end()-1,
+					inTraverse.begin(),inTraverse.end()-1);
+}
+
 
 int main(){
 	/*       0
@@ -99,6 +145,16 @@ int main(){
 	traverse_post(root);
 	cout<<endl;
 	traverse_BFS(root);
+	cout<<endl;
+	cout<<endl;
+
+	vector<int> preTrav{1,2,4,7,3,5,6,8};
+	vector<int> inTrav{4,7,2,1,5,3,8,6};
+	dtsBinaryTreeNode<int>* formedTreeRoot=formTreeWithTravRst(preTrav,inTrav);
+	dtsBinaryTree<int> tree_formed(formedTreeRoot);
+	tree_formed.print_pre();
+	tree_formed.print_in();
+	tree_formed.print_post();
 
 	return 0;
 }
