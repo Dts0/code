@@ -1,11 +1,17 @@
 #include"dtsVector.hpp"
+#include"dtsString.hpp"
 
 using namespace std;
 
 int main(){
-	dtsVector<char> st;
+	dtsVector<char> st;//=dtsVector<char>();
+	cout<<st.size()<<" "<<st.empty()<<endl;
 	//添加到最后
 	st.push_back('a').push_back('b').push_back('c').push_back('d');
+	cout<<st.size()<<" "<<st.empty()<<endl;
+	dtsVector<char> st_copy=st;
+	dtsVector<char> _st_copy;
+	_st_copy=st;
 	//可以用print函数遍历输出所有元素
 	st.print(' ',cout);
 	//重载了运算符[]
@@ -18,5 +24,27 @@ int main(){
 	catch(out_of_range e){
 		cout<<e.what()<<endl;
 	}
+	//test for +
+	st_copy=st_copy+'s';
+	cout<<st_copy.size()<<endl;
+	_st_copy=_st_copy+st_copy;
+	cout<<_st_copy.size()<<endl;
+	//test for copy
+	st.print();
+	st_copy.print();
+	_st_copy.print();
+
+	dtsString str="t";
+	cout<<str.size()<<" "<<str.empty()<<endl;
+	str.append("test");
+	str.append('t');
+	str+='h';
+	str=str+"te";
+	str=str+st;
+	str+='w';
+	str+="te";
+	str.print();
+
+	cout<<str.c_str()<<endl;
 	return 0;
 }
