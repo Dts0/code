@@ -46,5 +46,7 @@ int main(){
 	str.print();
 
 	cout<<str.c_str()<<endl;
+
+	cout<<str;
 	return 0;
 }
