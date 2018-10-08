@@ -44,7 +44,7 @@ int main(){
 7     8
 
 */
-//也可以把根结点值给构造函数，来创建一个二叉树
+	//也可以把根结点值给构造函数，来创建一个二叉树
 	dtsBinaryTree<int> tree(0);
 	tree.add2Left_val(1,0).add2Right_val(2,0).add2Left_val(3,1).add2Right_val(4,1).add2Left_val(5,2).add2Right_val(6,2)
 		.add2Left_val(7,3).add2Right_val(8,4);
@@ -52,5 +52,8 @@ int main(){
 	tree.print_in();//中序遍历
 	tree.print_post();//后序遍历
 
+	//测试parent
+	cout<<tree.find_pre(tree.getRoot(),3)->parent->parent->value<<endl;
+	cout<<tree.find_pre(tree.getRoot(),4)->parent->value<<endl;
 	return 0;
 }

@@ -10,10 +10,12 @@ template <typename T>
 class dtsBinaryTreeNode{
 public:
 	T value;
+	dtsBinaryTreeNode<T>* parent;
 	dtsBinaryTreeNode<T>* leftChild;
 	dtsBinaryTreeNode<T>* rightChild;
-	dtsBinaryTreeNode(T val,dtsBinaryTreeNode<T>* left=NULL,dtsBinaryTreeNode<T>* right=NULL)
-				:value(val),leftChild(left),rightChild(right){}
+	dtsBinaryTreeNode(T val,dtsBinaryTreeNode<T>* left=NULL,dtsBinaryTreeNode<T>* right=NULL
+				,dtsBinaryTreeNode<T>* par=NULL)
+				:value(val),leftChild(left),rightChild(right),parent(par){}
 	dtsBinaryTreeNode(){}
 };
 
@@ -21,6 +23,7 @@ public:
 
 template <typename T>
 class dtsBinaryTree{
+protected:
 	dtsBinaryTreeNode<T>* root;
 	//前序遍历
 	static void doSomethingTree_preOrder(dtsBinaryTreeNode<T>* root,function<void(dtsBinaryTreeNode<T>* node)> func){
@@ -53,6 +56,10 @@ public:
 	}
 	dtsBinaryTree(dtsBinaryTreeNode<T>* rt):root(rt){}
 
+	dtsBinaryTreeNode<T>* getRoot(){
+		return root;
+	}
+
 	static dtsBinaryTreeNode<T>* find_pre(dtsBinaryTreeNode<T>* root,T val,int n=1,int* cnt=NULL){//返回前序遍历找到的第n个节点
 		if(!root)
 			return NULL;
@@ -83,6 +90,7 @@ public:
 	dtsBinaryTree<T>& add2Left(T val,dtsBinaryTreeNode<T>* parent){
 		if(parent && !parent->leftChild){
 			dtsBinaryTreeNode<T>* newNode=new dtsBinaryTreeNode<T>(val);
+			newNode->parent=parent;
 			parent->leftChild=newNode;
 			//cout<<"add "<<val<<endl;
 		}
@@ -91,8 +99,10 @@ public:
 	dtsBinaryTree<T>& add2Right(T val,dtsBinaryTreeNode<T>* parent){
 		if(parent && !parent->rightChild){
 			dtsBinaryTreeNode<T>* newNode=new dtsBinaryTreeNode<T>(val);
-			if(parent)
+			if(parent){
+				newNode->parent=parent;
 				parent->rightChild=newNode;
+			}
 		}
 		return *this;
 	}
