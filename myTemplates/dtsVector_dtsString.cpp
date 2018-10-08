@@ -34,19 +34,18 @@ int main(){
 	st_copy.print();
 	_st_copy.print();
 
-	dtsString str="t";
+	dtsString str="dtsString ";
 	cout<<str.size()<<" "<<str.empty()<<endl;
-	str.append("test");
-	str.append('t');
-	str+='h';
-	str=str+"te";
-	str=str+st;
-	str+='w';
-	str+="te";
+	str.append("by");
+	str.append(' ');
+	str+='d';
+	str=str+"ts";
+	str+='\n';
+	str+="test:";
+	str+=st;
+
 	str.print();
-
 	cout<<str.c_str()<<endl;
-
 	cout<<str;
 	return 0;
 }
