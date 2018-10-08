@@ -65,7 +65,7 @@ public:
 		if(_size==0){
 			throw std::out_of_range("空数组");
 		}
-		return vals[_size-1];
+		return vals[--_size];
 	}
 
 	T& at(int index){

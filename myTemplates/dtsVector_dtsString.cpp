@@ -17,14 +17,7 @@ int main(){
 	//重载了运算符[]
 	st[0]='t';
 	cout<<st[0]<<endl<<st[1]<<endl;
-	//索引超界时抛出异常
-	try{
-		cout<<st[-1]<<endl;
-	}
-	catch(out_of_range e){
-		cout<<e.what()<<endl;
-	}
-	//test for +
+		//test for +
 	st_copy=st_copy+'s';
 	cout<<st_copy.size()<<endl;
 	_st_copy=_st_copy+st_copy;
@@ -34,6 +27,21 @@ int main(){
 	st_copy.print();
 	_st_copy.print();
 
+	//索引超界和pop空数组时抛出异常
+	try{
+		while(1)
+		cout<<st.pop_back();
+	}
+	catch(out_of_range e){
+		cout<<e.what()<<endl;
+	}
+	try{
+		cout<<st[-1]<<endl;
+	}
+	catch(out_of_range e){
+		cout<<e.what()<<endl;
+	}
+
 	dtsString str="dtsString ";
 	cout<<str.size()<<" "<<str.empty()<<endl;
 	str.append("by");
@@ -42,7 +50,6 @@ int main(){
 	str=str+"ts";
 	str+='\n';
 	str+="test:";
-	str+=st;
 
 	str.print();
 	cout<<str.c_str()<<endl;
