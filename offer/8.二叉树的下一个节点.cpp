@@ -12,13 +12,13 @@ dtsBinaryTreeNode<T>* nextNode_in(const dtsBinaryTreeNode<T>* pThis){
 		return NULL;
 
 	dtsBinaryTreeNode<T>* pNext=NULL;
-	if(pThis->rightChild!=NULL){//返回最右下的结点
+	if(pThis->rightChild!=NULL){//有右子结点时，返回右子结点的最左下结点
 		auto pRight=pThis->rightChild;
 		while(pRight->leftChild!=NULL){
 			pRight=pRight->leftChild;
 		}
 		pNext=pRight;
-	} else if(pThis->parent!=NULL){//返回右上的父
+	} else if(pThis->parent!=NULL){//没有右子结点且父结点不为空时，向上直到为左子结点
 		auto pCurrent=pThis;
 		auto pParent=pThis->parent;
 		while(pParent!=NULL && pCurrent==pParent->rightChild){//是父结点的右子结点时,向上一层
@@ -58,5 +58,10 @@ int main(){
 	_TEST(tree,6);
 	_TEST(tree,7);
 	_TEST(tree,8);
+
+	dtsBinaryTreeNode<int>* nullTreeRoot=NULL;
+	dtsBinaryTree<int> nullTree(nullTreeRoot);
+	_TEST(nullTree,0);
+
 	return 0;
 }
