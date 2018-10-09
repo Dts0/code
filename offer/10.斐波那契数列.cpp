@@ -27,7 +27,7 @@ long long Fibonacci_for(unsigned int n){
 
 int main(){
 	for(unsigned int n=0;n<100;++n){
-	cout<<"对于"<<n<<endl;
+	cout<<"斐波那契数列第"<<n<<"位："<<endl;
 	clock_t startTime=clock();
 	long long resultFor = Fibonacci_for(n);
 	clock_t endFor=clock();
