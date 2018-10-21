@@ -1,9 +1,12 @@
 CC      = g++
 CFLAGS  = -g -Wall -O0 
 
+INC_PATH    = -I.
+LIB_PATH    = -L.
+
 EXT_LIB     = 
-EXT_SO		= -L. -ltestmod
-EXT_SO_CC	= -fPIC -shared	#编译动态库时需要额外添加的参数
+EXT_SO		= -L. -ltestmod -Wl,--rpath=.
+EXT_SO_CC	= -fPIC -shared	
 
 all:
 	make with_so
@@ -11,9 +14,9 @@ all:
 
 with_so:
 	make so
-#	$(CC) $(CFLAGS) $(EXT_SO) $(EXT_SO_CC) -o static_with_so.out static.cpp
+	$(CC) $(CFLAGS) -o static_with_so.out static.cpp $(EXT_SO)
 so:
-	$(CC) $(CFLAGS) $(EXT_SO_CC) -o libtestmod.so testmod.cpp
+	$(CC) $(CFLAGS) $(EXT_SO_CC) -o libtestmod.so testmod.cpp 
 
 without_so:
 	g++ static.cpp testmod.cpp -o static_without_so.out

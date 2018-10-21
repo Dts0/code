@@ -1,0 +1,33 @@
+SRCS    = $(wildcard *.c++)
+OBJS    = $(patsubst %.c++, %.o, $(SRCS))
+
+CC      = g++
+CFLAGS  = -g -Wall -O0 $(EXT_SO_CC)
+
+TARGET      = lib/libtest.so
+INC_PATH    = -I.
+LIB_PATH    = -L..
+
+EXT_LIB     = #../lib/libtest.a
+EXT_SO		= -L. -ltest -Wl,--rpath=./lib/
+EXT_SO_CC	= -fPIC -shared	#编译动态库时需要额外添加的参数
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+	$(CC) $(EXT_SO_CC) -o $(TARGET) $(OBJS)  
+
+%.o:%.c++
+	$(CC) $(INC_PATH) $(CFLAGS) -c -o $@ $<
+%.o:%.c
+	$(CC) $(INC_PATH) $(CFLAGS) -c -o $@ $<
+
+run:$(TARGET)
+	$(TARGET)
+
+clear:	#只删除中间文件的命令
+	rm -rf $(OBJS)
+	
+.PHONY:clean
+clean:
+	rm -rf $(TARGET) $(OBJS)
