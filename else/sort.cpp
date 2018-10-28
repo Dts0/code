@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<ctime>
 
 using namespace std;
 
@@ -50,12 +51,16 @@ void bubbleSort(vector<T>& nums){//冒泡排序
 }
 
 template<typename T>
-void insertSort(vector<T>& nums){//插入排序
-	for(int i=1;i<nums.size();++i){
+void insertSort(vector<T>& nums,int begin,int tail){//插入排序
+	for(int i=begin+1;i<=tail;++i){
 		for(int j=i;j>=1 && nums[j]<nums[j-1];--j){
 			_SWAP(nums[j],nums[j-1]);
 		}
 	}
+}
+template<typename T>
+void insertSort(vector<T>& nums){//插入排序
+	insertSort(nums,0,nums.size()-1);
 }
 
 template<typename T>
@@ -144,7 +149,6 @@ int partition(vector<T>& nums,int begin,int tail){
 	return j;
 }
 
-
 template<typename T>
 void quickSort(vector<T>& nums,int begin,int tail){
 	if(begin>=tail)
@@ -154,8 +158,44 @@ void quickSort(vector<T>& nums,int begin,int tail){
 	quickSort(nums,partIndex+1,tail);//对切分点右侧快排
 }
 template<typename T>
-void quickSort(vector<T>& nums){
+void quickSort(vector<T>& nums){//快排入口
 	quickSort(nums,0,nums.size()-1);
+}
+
+//以下为改进了的快速排序
+template<typename T>
+int partition_ex(vector<T>& nums,int begin,int tail){
+	int i=begin,j=tail+1;//将begin+1到tail的数字分为>val和小于val
+
+	int rand_index=rand()%(tail-begin);//取begin到tail的随机点为切分点
+	_SWAP(nums[begin+rand_index],nums[begin]);//调至begin处
+
+	T val=nums[begin];//切分点,之后会把它调整到对应位置
+	while(1){
+		while(nums[++i]<val && i!=tail);//在i不到最后时,i右移
+		while(val<nums[--j] && j!=begin);//在j不到开头时,j左移
+		if(i>=j)//i,j相遇,跳出
+			break;
+		_SWAP(nums[i],nums[j]);//未相遇时,交换
+	}
+	_SWAP(nums[begin],nums[j]);//交换选择的点和当前j的位置(比nums[i]小的中最后一个)
+	return j;
+}
+template<typename T>
+void quickSort_ex(vector<T>& nums,int begin,int tail){
+	if(begin>=tail)
+		return;
+	if(tail-begin+1<10){//当数组小时,切换到快排
+		insertSort(nums,begin,tail);
+		return;
+	}
+	int partIndex=partition_ex(nums,begin,tail);
+	quickSort_ex(nums,begin,partIndex-1);//对切分点左侧快排
+	quickSort_ex(nums,partIndex+1,tail);//对切分点右侧快排
+}
+template<typename T>
+void quickSort_ex(vector<T>& nums){
+	quickSort_ex(nums,0,nums.size()-1);
 }
 
 
@@ -166,6 +206,7 @@ void test(vector<int> nums){
 	vector<int> nums3(nums);
 	vector<int> nums4(nums);
 	vector<int> nums5(nums);
+	vector<int> nums6(nums);
 
 	selectSort(nums0);
 	bubbleSort(nums1);
@@ -173,8 +214,9 @@ void test(vector<int> nums){
 	shellSort(nums3);
 	mergeSort(nums4);
 	quickSort(nums5);
+	quickSort_ex(nums6);
 
-	print(nums);
+	print(nums);//第一行输出原数组
 
 	print(nums0);
 	print(nums1);
@@ -182,6 +224,7 @@ void test(vector<int> nums){
 	print(nums3);
 	print(nums4);
 	print(nums5);
+	print(nums6);
 }
 
 int main(){
@@ -189,6 +232,60 @@ int main(){
 	test({});//空数组
 	test({1,2,3,4,5});//已排序的数组
 	test({2,4,5,3,1,2,3,3});
+
+	//生成一个大小为10000的数组,并测试各个算法消耗时间
+	vector<int> nums;
+	for(int i=0;i<10000;++i){
+		nums.push_back(rand());
+	}
+	vector<int> nums0(nums);
+	vector<int> nums1(nums);
+	vector<int> nums2(nums);
+	vector<int> nums3(nums);
+	vector<int> nums4(nums);
+	vector<int> nums5(nums);
+	vector<int> nums6(nums);
+
+
+
+
+	cout<<"大小10000的随机测试数组"<<endl;
+	clock_t start,end;
+
+	start=clock();
+	selectSort(nums0);
+	end=clock();
+	cout<<"选择排序耗时:"<<end-start<<endl;
+
+	start=clock();
+	bubbleSort(nums1);
+	end=clock();
+	cout<<"冒泡排序耗时:"<<end-start<<endl;
+
+	start=clock();
+	insertSort(nums2);
+	end=clock();
+	cout<<"插入排序耗时:"<<end-start<<endl;
+
+	start=clock();
+	shellSort(nums3);
+	end=clock();
+	cout<<"希尔排序耗时:"<<end-start<<endl;
+
+	start=clock();
+	mergeSort(nums4);
+	end=clock();
+	cout<<"归并排序耗时:"<<end-start<<endl;
+
+	start=clock();
+	quickSort(nums5);
+	end=clock();
+	cout<<"快速排序耗时:"<<end-start<<endl;
+
+	start=clock();
+	quickSort_ex(nums6);
+	end=clock();
+	cout<<"改进了的快速排序耗时:"<<end-start<<endl;
 
 	return 0;
 }
