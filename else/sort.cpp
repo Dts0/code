@@ -19,15 +19,14 @@ template<typename T>
 void selectSort(vector<T>& nums){//选择排序
 	if(nums.size()==0)
 		return;
-	int min_index=-1;
 	for(int i=0;i<nums.size();++i){
+		int min_index=i;//从第i个开始
 		for(int j=i;j<nums.size();++j){
 			if(nums[j]<nums[min_index]){
 				min_index=j;
 			}
 		}
-		if(min_index!=-1)
-			_SWAP(nums[i],nums[min_index]);
+		_SWAP(nums[i],nums[min_index]);
 	}
 }
 
@@ -132,7 +131,7 @@ void mergeSort(vector<T>& nums){//归并排序入口
 //快速排序切分函数,并返回切分调整后的切分点的索引,该点左侧所有值比该点小,右侧所有值比该点大
 template<typename T>
 int partition(vector<T>& nums,int begin,int tail){
-	int i=begin,j=tail+1;//将begin+1到tail的数字
+	int i=begin,j=tail+1;//将begin+1到tail的数字分为>val和小于val
 	T val=nums[begin];//取第一个数为切分点,之后会把它调整到对应位置
 	while(1){
 		while(nums[++i]<val && i!=tail);//在i不到最后时,i右移
@@ -189,6 +188,7 @@ int main(){
 	test({2,4,5,3,1});
 	test({});//空数组
 	test({1,2,3,4,5});//已排序的数组
+	test({2,4,5,3,1,2,3,3});
 
 	return 0;
 }
