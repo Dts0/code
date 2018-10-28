@@ -167,6 +167,7 @@ template<typename T>
 int partition_ex(vector<T>& nums,int begin,int tail){
 	int i=begin,j=tail+1;//将begin+1到tail的数字分为>val和小于val
 
+//对于完全随机的数组,不随机取点更好,对于部分有序的数组，建议取随机数或者三点取中
 //	int rand_index=rand()%(tail-begin);//取begin到tail的随机点为切分点
 //	_SWAP(nums[begin+rand_index],nums[begin]);//调至begin处
 
