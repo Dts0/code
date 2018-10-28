@@ -167,8 +167,8 @@ template<typename T>
 int partition_ex(vector<T>& nums,int begin,int tail){
 	int i=begin,j=tail+1;//将begin+1到tail的数字分为>val和小于val
 
-	int rand_index=rand()%(tail-begin);//取begin到tail的随机点为切分点
-	_SWAP(nums[begin+rand_index],nums[begin]);//调至begin处
+//	int rand_index=rand()%(tail-begin);//取begin到tail的随机点为切分点
+//	_SWAP(nums[begin+rand_index],nums[begin]);//调至begin处
 
 	T val=nums[begin];//切分点,之后会把它调整到对应位置
 	while(1){
@@ -245,9 +245,6 @@ int main(){
 	vector<int> nums4(nums);
 	vector<int> nums5(nums);
 	vector<int> nums6(nums);
-
-
-
 
 	cout<<"大小10000的随机测试数组"<<endl;
 	clock_t start,end;
