@@ -19,14 +19,15 @@ template<typename T>
 void selectSort(vector<T>& nums){//选择排序
 	if(nums.size()==0)
 		return;
-	int min_index=0;
+	int min_index=-1;
 	for(int i=0;i<nums.size();++i){
 		for(int j=i;j<nums.size();++j){
 			if(nums[j]<nums[min_index]){
 				min_index=j;
 			}
 		}
-		_SWAP(nums[i],nums[min_index]);
+		if(min_index!=-1)
+			_SWAP(nums[i],nums[min_index]);
 	}
 }
 
@@ -74,31 +75,120 @@ void shellSort(vector<T>& nums){//希尔排序，进阶版的插入排序,O(nlog
 	}
 }
 
+template<typename T>
+//请忽略这个与排序无关的函数...不适用于归并排序和快速排序
+static void merge(vector<T>& nums1,vector<T>& nums2){//将nums1和nums2合并，结果放入扩容后的nums1中
+	int size1=nums1.size();
+	nums1.resize(nums1.size()+nums2.size());
+	for(int i=0;i<nums2.size();++i){
+		nums1[size1+i]=nums2[i];
+	}
+}
 
+//归并排序使用的合并函数
+template<typename T>
+//将数组nums中的begin到middle和middle+1到tail两个数组合并,并放回nums,使用的临时数组为temp
+static void merge(vector<T>& nums,vector<T>& temp,int begin,int middle,int tail){
+	//i为左侧数组的当前指针,j为右侧数组的当前指针,k为合并后数组(temp)的当前指针
+	int i=begin,j=middle+1,k=begin;
+	while(i!=middle+1 && j!=tail+1){
+		if(nums[i]>nums[j]){
+			temp[k++]=nums[j++];//增序排列,取小值
+		}else{
+			temp[k++]=nums[i++];
+		}
+	}
+	//复制剩余部分
+	while(i!=middle+1){
+		temp[k++]=nums[i++];
+	}
+	while(j!=tail+1){
+		temp[k++]=nums[j++];
+	}
+	//从临时数组复制到原数组
+	for(int it=begin;it<=tail;++it){
+		nums[it]=temp[it];
+	}
+}
 
 template<typename T>
-void qSort(vector<T>& nums){
-
+static void mergeSort(vector<T>& nums,vector<T>& temp,int begin,int tail){//归并排序递归子函数
+	int middle=(begin+tail)/2;
+	if(begin<tail){//当begin到tail之后时停止递归
+		mergeSort(nums,temp,begin,middle);
+		mergeSort(nums,temp,middle+1,tail);
+		merge(nums,temp,begin,middle,tail);
+	}
+}
+template<typename T>
+//归并排序的思路：
+//将每个数组拆分成两个子数组分别排序再合并
+void mergeSort(vector<T>& nums){//归并排序入口
+	vector<T> temp(nums.size());
+	mergeSort(nums,temp,0,nums.size()-1);
 }
 
 
+//快速排序切分函数,并返回切分调整后的切分点的索引,该点左侧所有值比该点小,右侧所有值比该点大
+template<typename T>
+int partition(vector<T>& nums,int begin,int tail){
+	int i=begin,j=tail+1;//将begin+1到tail的数字
+	T val=nums[begin];//取第一个数为切分点,之后会把它调整到对应位置
+	while(1){
+		while(nums[++i]<val && i!=tail);//在i不到最后时,i右移
+		while(val<nums[--j] && j!=begin);//在j不到开头时,j左移
+		if(i>=j)//i,j相遇,跳出
+			break;
+		_SWAP(nums[i],nums[j]);//未相遇时,交换
+	}
+	_SWAP(nums[begin],nums[j]);//交换选择的点和当前j的位置(比nums[i]小的中最后一个)
+	return j;
+}
 
-int main(){
-	vector<int> nums{2,4,5,3,1};
+
+template<typename T>
+void quickSort(vector<T>& nums,int begin,int tail){
+	if(begin>=tail)
+		return;
+	int partIndex=partition(nums,begin,tail);
+	quickSort(nums,begin,partIndex-1);//对切分点左侧快排
+	quickSort(nums,partIndex+1,tail);//对切分点右侧快排
+}
+template<typename T>
+void quickSort(vector<T>& nums){
+	quickSort(nums,0,nums.size()-1);
+}
+
+
+void test(vector<int> nums){
 	vector<int> nums0(nums);
 	vector<int> nums1(nums);
 	vector<int> nums2(nums);
 	vector<int> nums3(nums);
+	vector<int> nums4(nums);
+	vector<int> nums5(nums);
 
 	selectSort(nums0);
 	bubbleSort(nums1);
 	insertSort(nums2);
 	shellSort(nums3);
+	mergeSort(nums4);
+	quickSort(nums5);
+
+	print(nums);
 
 	print(nums0);
 	print(nums1);
 	print(nums2);
 	print(nums3);
+	print(nums4);
+	print(nums5);
+}
+
+int main(){
+	test({2,4,5,3,1});
+	test({});//空数组
+	test({1,2,3,4,5});//已排序的数组
 
 	return 0;
 }
