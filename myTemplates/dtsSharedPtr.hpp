@@ -57,6 +57,10 @@ public:
 			throw std::out_of_range("空的共享指针");
 		return cont->count;
 	}
+	//检查是否为空共享指针
+	bool isNULL(){
+		return cont==NULL;
+	}
 
 	//以下为指针行为,重载*,->
 	T& operator *(){
